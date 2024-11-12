@@ -1,7 +1,7 @@
 package com.java.testw2m.service;
 
-import com.java.testw2m.model.Ship;
-import com.java.testw2m.repository.ShipRepository;
+import com.java.testw2m.model.SpaceShip;
+import com.java.testw2m.repository.SpaceShipRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -16,24 +16,24 @@ import java.util.Optional;
  * Servicio principal para el manejo de los objetos Prices
  */
 @Service
-public class ShipService {
+public class SpaceShipService {
     @Autowired
-    private ShipRepository shipRepository;
+    private SpaceShipRepository spaceShipRepository;
 
     // Consultar todas las naves con paginación
-    public Page<Ship> getAllShips(int page, int size) {
-        return shipRepository.findAll(PageRequest.of(page, size));
+    public Page<SpaceShip> getAllShips(int page, int size) {
+        return spaceShipRepository.findAll(PageRequest.of(page, size));
     }
 
     // Consultar nave por id
     @Cacheable(value = "ships", key = "#id")
-    public Optional<Ship> getShipById(Integer id) {
-        return shipRepository.findById(id);
+    public Optional<SpaceShip> getShipById(Integer id) {
+        return spaceShipRepository.findById(id);
     }
 
     // Consultar naves por nombre que contengan un valor
-    public List<Ship> getShipsByName(String name) {
-        return shipRepository.findByNameContainingIgnoreCase(name);
+    public List<SpaceShip> getShipsByName(String name) {
+        return spaceShipRepository.findByNameContainingIgnoreCase(name);
     }
 
     /**
@@ -41,8 +41,8 @@ public class ShipService {
      *
      * @return Una lista de naves o una lista vacia en caso de no encontrar naves que cumplan los parametros
      */
-    public Ship create(Ship ship) {
-        return shipRepository.save(ship);
+    public SpaceShip create(SpaceShip spaceShip) {
+        return spaceShipRepository.save(spaceShip);
     }
 
     /**
@@ -50,14 +50,14 @@ public class ShipService {
      *
      * @return Una lista de naves o una lista vacia en caso de no encontrar naves que cumplan los parametros
      */
-    public Ship update(Ship ship) {
-        Optional<Ship> savedShip = shipRepository.findById(ship.getId());
+    public SpaceShip update(SpaceShip spaceShip) {
+        Optional<SpaceShip> savedShip = spaceShipRepository.findById(spaceShip.getId());
 
         if (savedShip.isEmpty()) {
             return null;
         }
 
-        return shipRepository.save(ship);
+        return spaceShipRepository.save(spaceShip);
     }
 
     /**
@@ -67,6 +67,6 @@ public class ShipService {
      */
     @CacheEvict(value = "naves", key = "#id")
     public void delete(Integer id) {
-        shipRepository.deleteById(id);
+        spaceShipRepository.deleteById(id);
     }
 }

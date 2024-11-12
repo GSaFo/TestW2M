@@ -1,7 +1,7 @@
 package com.java.testw2m;
 
-import com.java.testw2m.model.Ship;
-import com.java.testw2m.service.ShipService;
+import com.java.testw2m.model.SpaceShip;
+import com.java.testw2m.service.SpaceShipService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -20,57 +20,57 @@ import static org.junit.jupiter.api.Assertions.*;
 class TestW2MApplicationTests {
 
     @Autowired
-    private ShipService shipService;  // Asegúrate de que el servicio esté inyectado correctamente
+    private SpaceShipService spaceShipService;  // Asegúrate de que el servicio esté inyectado correctamente
 
     @Test
     public void testCreateShip() {
-        Ship ship = new Ship();
-        ship.setName("xwing");
-        ship.setDescription("starwars");
+        SpaceShip spaceShip = new SpaceShip();
+        spaceShip.setName("xwing");
+        spaceShip.setDescription("starwars");
 
         // Llamada al método que debería guardar la nave
-        Ship savedShip = shipService.create(ship);
+        SpaceShip savedSpaceShip = spaceShipService.create(spaceShip);
 
         // Verifica que la nave no sea null y que el ID se haya generado
-        assertNotNull(savedShip);
-        assertNotNull(savedShip.getId());
-        assertEquals("xwing", savedShip.getName());
-        assertEquals("starwars", savedShip.getDescription());
+        assertNotNull(savedSpaceShip);
+        assertNotNull(savedSpaceShip.getId());
+        assertEquals("xwing", savedSpaceShip.getName());
+        assertEquals("starwars", savedSpaceShip.getDescription());
     }
 
     @Test
     public void testGetShipById() {
         // Crear y guardar una nave
-        Ship ship = new Ship();
-        ship.setName("TIE Fighter");
-        ship.setDescription("Imperial Starfighter");
+        SpaceShip spaceShip = new SpaceShip();
+        spaceShip.setName("tie fighter");
+        spaceShip.setDescription("prueba");
 
-        Ship savedShip = shipService.create(ship);
-        Integer shipId = savedShip.getId();  // Obtener el ID de la nave recién guardada
+        SpaceShip savedSpaceShip = spaceShipService.create(spaceShip);
+        Integer shipId = savedSpaceShip.getId();  // Obtener el ID de la nave recién guardada
 
         // Obtener la nave por ID
-        Optional<Ship> retrievedShip = shipService.getShipById(shipId);
+        Optional<SpaceShip> retrievedShip = spaceShipService.getShipById(shipId);
 
-        Ship realRetrievedShip = retrievedShip.orElse(null);
+        SpaceShip realRetrievedSpaceShip = retrievedShip.orElse(null);
 
         assertNotNull(retrievedShip);
-        assertEquals(shipId, realRetrievedShip.getId());
-        assertEquals("TIE Fighter", realRetrievedShip.getName());
-        assertEquals("Imperial Starfighter", realRetrievedShip.getDescription());
+        assertEquals(shipId, realRetrievedSpaceShip.getId());
+        assertEquals("tie fighter", realRetrievedSpaceShip.getName());
+        assertEquals("prueba", realRetrievedSpaceShip.getDescription());
     }
 
     @Test
     public void testGetAllShipsPaged() {
         // Crear varias naves
         for (int i = 0; i < 15; i++) {
-            Ship ship = new Ship();
-            ship.setName("Ship " + i);
-            ship.setDescription("Description " + i);
-            shipService.create(ship);
+            SpaceShip spaceShip = new SpaceShip();
+            spaceShip.setName("Ship " + i);
+            spaceShip.setDescription("Description " + i);
+            spaceShipService.create(spaceShip);
         }
 
         // Consultar todas las naves con paginación
-        Page<Ship> page = shipService.getAllShips(0, 5);
+        Page<SpaceShip> page = spaceShipService.getAllShips(0, 5);
 
         assertNotNull(page);
         assertEquals(5, page.getContent().size());  // Debería retornar 5 naves por página
@@ -80,48 +80,73 @@ class TestW2MApplicationTests {
     @Test
     public void testSearchShipsByName() {
         // Crear algunas naves
-        Ship ship1 = new Ship();
-        ship1.setName("x-wing");
-        ship1.setDescription("a");
-        shipService.create(ship1);
+        SpaceShip spaceShip1 = new SpaceShip();
+        spaceShip1.setName("x-wing");
+        spaceShip1.setDescription("a");
+        spaceShipService.create(spaceShip1);
 
-        Ship ship2 = new Ship();
-        ship2.setName("y-wing");
-        ship2.setDescription("b");
-        shipService.create(ship2);
+        SpaceShip spaceShip2 = new SpaceShip();
+        spaceShip2.setName("y-wing");
+        spaceShip2.setDescription("b");
+        spaceShipService.create(spaceShip2);
 
-        Ship ship3 = new Ship();
-        ship3.setName("z-wing");
-        ship3.setDescription("c");
-        shipService.create(ship3);
+        SpaceShip spaceShip3 = new SpaceShip();
+        spaceShip3.setName("z-wing");
+        spaceShip3.setDescription("c");
+        spaceShipService.create(spaceShip3);
 
         // Buscar naves que contengan "Wing" en su nombre
-        List<Ship> ships = shipService.getShipsByName("wing");
+        List<SpaceShip> spaceShips = spaceShipService.getShipsByName("wing");
 
-        assertNotNull(ships);
-        assertEquals(3, ships.size());  // Deberíamos obtener las 3 naves
-        assertTrue(ships.stream().allMatch(ship -> ship.getName().contains("wing")));
+        assertNotNull(spaceShips);
+        assertEquals(3, spaceShips.size());  // Deberíamos obtener las 3 naves
+        assertTrue(spaceShips.stream().allMatch(spaceShip -> spaceShip.getName().contains("wing")));
     }
 
     @Test
     public void testUpdateShip() {
         // Crear y guardar una nave
-        Ship ship = new Ship();
-        ship.setName("tie fighter");
-        ship.setDescription("asdasd");
-        Ship savedShip = shipService.create(ship);
-        Integer shipId = savedShip.getId();
+        SpaceShip spaceShip = new SpaceShip();
+        spaceShip.setName("tie fighter");
+        spaceShip.setDescription("asdasd");
+        SpaceShip savedSpaceShip = spaceShipService.create(spaceShip);
+        Integer shipId = savedSpaceShip.getId();
 
         // Actualizar la nave
-        savedShip.setName("TIE Interceptor");
-        savedShip.setDescription("Faster than the standard TIE Fighter");
+        savedSpaceShip.setName("tie interceptor");
+        savedSpaceShip.setDescription("prueba update");
 
-        Ship updatedShip = shipService.update(savedShip);
+        SpaceShip updatedSpaceShip = spaceShipService.update(savedSpaceShip);
 
         // Verificar que la nave se haya actualizado correctamente
-        assertNotNull(updatedShip);
-        assertEquals(shipId, updatedShip.getId());  // El ID debe mantenerse igual
-        assertEquals("TIE Interceptor", updatedShip.getName());
-        assertEquals("Faster than the standard TIE Fighter", updatedShip.getDescription());
+        assertNotNull(updatedSpaceShip);
+        assertEquals(shipId, updatedSpaceShip.getId());  // El ID debe mantenerse igual
+        assertEquals("tie interceptor", updatedSpaceShip.getName());
+        assertEquals("prueba update", updatedSpaceShip.getDescription());
+    }
+
+    @Test
+    void testCreateAndRetrieveShip() {
+        // Crear un nuevo objeto Ship
+        SpaceShip spaceShip = new SpaceShip();
+        spaceShip.setName("x-wing");
+        spaceShip.setDescription("testing");
+
+        // Guardar el objeto Ship en la base de datos
+        SpaceShip createdSpaceShip = spaceShipService.create(spaceShip);
+
+        // Verificar que el objeto se ha guardado correctamente
+        assertNotNull(createdSpaceShip.getId());
+        assertEquals("x-wing", createdSpaceShip.getName());
+        assertEquals("testing", createdSpaceShip.getDescription());
+
+        // Recuperar el objeto de la base de datos
+        SpaceShip retrievedSpaceShip = spaceShipService.getShipById(createdSpaceShip.getId()).orElse(null);
+
+        // Verificar que el objeto recuperado es el mismo
+        assertNotNull(retrievedSpaceShip);
+        assertEquals(createdSpaceShip.getId(), retrievedSpaceShip.getId());
+        assertEquals(createdSpaceShip.getName(), retrievedSpaceShip.getName());
     }
 }
+

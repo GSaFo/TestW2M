@@ -2,8 +2,8 @@ package com.java.testw2m.controller;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.java.testw2m.model.Ship;
-import com.java.testw2m.service.ShipService;
+import com.java.testw2m.model.SpaceShip;
+import com.java.testw2m.service.SpaceShipService;
 import com.java.testw2m.util.Utils;
 import io.micrometer.common.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,16 +20,16 @@ import java.util.Optional;
  */
 @RestController
 @RequestMapping("/ship") //localhost:8080/ship
-public class ShipController {
+public class SpaceShipController {
 
     @Autowired
-    private ShipService shipService;
+    private SpaceShipService spaceShipService;
     private Gson gson = new GsonBuilder().create();
 
     @GetMapping("getAllShips")
-    public ResponseEntity<Page<Ship>> getAllShips(@RequestParam(defaultValue = "0") int page,
-                                                  @RequestParam(defaultValue = "10") int size) {
-        Page<Ship> ships = shipService.getAllShips(page, size);
+    public ResponseEntity<Page<SpaceShip>> getAllShips(@RequestParam(defaultValue = "0") int page,
+                                                       @RequestParam(defaultValue = "10") int size) {
+        Page<SpaceShip> ships = spaceShipService.getAllShips(page, size);
         return new ResponseEntity<>(ships, HttpStatus.OK);
     }
 
@@ -41,7 +41,7 @@ public class ShipController {
      */
     @GetMapping("getShipById")
     public ResponseEntity<String> getById(@RequestParam Integer id) {
-        Optional<Ship> ship = shipService.getShipById(id);
+        Optional<SpaceShip> ship = spaceShipService.getShipById(id);
 
         // Comprobamos si nos ha llegado un prices veridico o uno vacio. En caso de estar vacio es que no lo ha encontrado
         if (ship.isEmpty()) {
@@ -64,30 +64,30 @@ public class ShipController {
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Parameter data is not valid.");
         }
 
-        List<Ship> ships = shipService.getShipsByName(name);
+        List<SpaceShip> spaceShips = spaceShipService.getShipsByName(name);
 
         // Comprobamos si nos ha llegado un prices veridico o uno vacio. En caso de estar vacio es que no lo ha encontrado
-        if (Utils.isEmpty(ships)) {
+        if (Utils.isEmpty(spaceShips)) {
             return ResponseEntity.noContent().build();
         }
 
-        return ResponseEntity.ok(gson.toJson(ships));
+        return ResponseEntity.ok(gson.toJson(spaceShips));
     }
 
     /**
      * Recibe una nave y la inserta en la bbdd
      *
-     * @param ship La nave a insertar
+     * @param spaceShip La nave a insertar
      * @return Un 200 con un JSON del objeto encontrado o en caso de no encontrarlo un 204 vacio.
      */
     @PostMapping("createShip")
-    public ResponseEntity<String> create(@RequestBody Ship ship) {
+    public ResponseEntity<String> create(@RequestBody SpaceShip spaceShip) {
         // Comprobamos parametros de entrada
-        if (ship == null) {
+        if (spaceShip == null) {
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Parameter data is not valid.");
         }
 
-        Ship inserted = shipService.create(ship);
+        SpaceShip inserted = spaceShipService.create(spaceShip);
 
         return ResponseEntity.ok(gson.toJson(inserted));
     }
@@ -95,16 +95,16 @@ public class ShipController {
     /**
      * Recibe una nave e intenta actualizarla
      *
-     * @param ship La nave a actualizar
+     * @param spaceShip La nave a actualizar
      * @return Un 200 con un JSON del objeto encontrado o en caso de no encontrarlo un 204 vacio.
      */
     @PutMapping("updateShip")
-    public ResponseEntity<String> update(@RequestBody Ship ship) {
+    public ResponseEntity<String> update(@RequestBody SpaceShip spaceShip) {
         // Comprobamos parametros de entrada
-        if (ship == null) {
+        if (spaceShip == null) {
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Parameter data is not valid.");
         }
-        Ship updated = shipService.update(ship);
+        SpaceShip updated = spaceShipService.update(spaceShip);
 
         if (updated == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("The ship has not been found.");
@@ -121,7 +121,7 @@ public class ShipController {
      */
     @DeleteMapping("deleteShip")
     public ResponseEntity<String> update(@RequestBody Integer id) {
-        shipService.delete(id);
+        spaceShipService.delete(id);
 
         return ResponseEntity.ok().build();
     }
