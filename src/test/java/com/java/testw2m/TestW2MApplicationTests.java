@@ -1,5 +1,6 @@
 package com.java.testw2m;
 
+import com.java.testw2m.model.PaginatedResponse;
 import com.java.testw2m.model.SpaceShip;
 import com.java.testw2m.service.SpaceShipService;
 import org.junit.jupiter.api.Test;
@@ -70,7 +71,7 @@ class TestW2MApplicationTests {
         }
 
         // Consultar todas las naves con paginación
-        Page<SpaceShip> page = spaceShipService.getAllShips(0, 5);
+        PaginatedResponse<SpaceShip> page = spaceShipService.getAllShips(0, 5);
 
         assertNotNull(page);
         assertEquals(5, page.getContent().size());  // Debería retornar 5 naves por página

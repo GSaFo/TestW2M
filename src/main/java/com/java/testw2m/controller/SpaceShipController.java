@@ -2,7 +2,10 @@ package com.java.testw2m.controller;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.java.testw2m.helper.SpaceShipHelper;
+import com.java.testw2m.model.PaginatedResponse;
 import com.java.testw2m.model.SpaceShip;
+import com.java.testw2m.model.SpaceShipDTO;
 import com.java.testw2m.service.SpaceShipService;
 import com.java.testw2m.util.Utils;
 import io.micrometer.common.util.StringUtils;
@@ -19,7 +22,7 @@ import java.util.Optional;
  * Controlador principal de las llamadas a la api
  */
 @RestController
-@RequestMapping("/ship") //localhost:8080/ship
+@RequestMapping("/spaceShip") //localhost:8080/ship
 public class SpaceShipController {
 
     @Autowired
@@ -27,9 +30,9 @@ public class SpaceShipController {
     private Gson gson = new GsonBuilder().create();
 
     @GetMapping("getAllShips")
-    public ResponseEntity<Page<SpaceShip>> getAllShips(@RequestParam(defaultValue = "0") int page,
+    public ResponseEntity<PaginatedResponse<SpaceShip>> getAllShips(@RequestParam(defaultValue = "0") int page,
                                                        @RequestParam(defaultValue = "10") int size) {
-        Page<SpaceShip> ships = spaceShipService.getAllShips(page, size);
+        PaginatedResponse<SpaceShip> ships = spaceShipService.getAllShips(page, size);
         return new ResponseEntity<>(ships, HttpStatus.OK);
     }
 
@@ -77,15 +80,17 @@ public class SpaceShipController {
     /**
      * Recibe una nave y la inserta en la bbdd
      *
-     * @param spaceShip La nave a insertar
+     * @param spaceShipDTO La nave a insertar
      * @return Un 200 con un JSON del objeto encontrado o en caso de no encontrarlo un 204 vacio.
      */
     @PostMapping("createShip")
-    public ResponseEntity<String> create(@RequestBody SpaceShip spaceShip) {
+    public ResponseEntity<String> create(@RequestBody SpaceShipDTO spaceShipDTO) {
         // Comprobamos parametros de entrada
-        if (spaceShip == null) {
+        if (spaceShipDTO == null) {
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Parameter data is not valid.");
         }
+
+        SpaceShip spaceShip = SpaceShipHelper.transformDTO(spaceShipDTO);
 
         SpaceShip inserted = spaceShipService.create(spaceShip);
 
@@ -95,15 +100,18 @@ public class SpaceShipController {
     /**
      * Recibe una nave e intenta actualizarla
      *
-     * @param spaceShip La nave a actualizar
+     * @param spaceShipDTO La nave a actualizar
      * @return Un 200 con un JSON del objeto encontrado o en caso de no encontrarlo un 204 vacio.
      */
     @PutMapping("updateShip")
-    public ResponseEntity<String> update(@RequestBody SpaceShip spaceShip) {
+    public ResponseEntity<String> update(@RequestBody SpaceShipDTO spaceShipDTO) {
         // Comprobamos parametros de entrada
-        if (spaceShip == null) {
+        if (spaceShipDTO == null) {
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Parameter data is not valid.");
         }
+
+        SpaceShip spaceShip = SpaceShipHelper.transformDTO(spaceShipDTO);
+
         SpaceShip updated = spaceShipService.update(spaceShip);
 
         if (updated == null) {

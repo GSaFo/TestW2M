@@ -1,5 +1,7 @@
 package com.java.testw2m.service;
 
+import com.java.testw2m.mapper.MapperConfig;
+import com.java.testw2m.model.PaginatedResponse;
 import com.java.testw2m.model.SpaceShip;
 import com.java.testw2m.repository.SpaceShipRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +22,12 @@ public class SpaceShipService {
     @Autowired
     private SpaceShipRepository spaceShipRepository;
 
+    private MapperConfig mapperConfig = new MapperConfig();
+
     // Consultar todas las naves con paginación
-    public Page<SpaceShip> getAllShips(int page, int size) {
-        return spaceShipRepository.findAll(PageRequest.of(page, size));
+    public PaginatedResponse<SpaceShip> getAllShips(int page, int size) {
+        Page<SpaceShip> spaceShipPage = spaceShipRepository.findAll(PageRequest.of(page, size));
+        return mapperConfig.map(spaceShipPage,PaginatedResponse.class);
     }
 
     // Consultar nave por id
