@@ -1,6 +1,5 @@
 package com.java.testw2m.util;
 
-import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
@@ -18,4 +17,5 @@ public class JwtUtils {
                 .signWith(SignatureAlgorithm.HS512, SECRET_KEY)  // Firma con la clave secreta
                 .compact();
     }
+
 }

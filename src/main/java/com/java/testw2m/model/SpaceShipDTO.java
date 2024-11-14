@@ -1,6 +1,5 @@
 package com.java.testw2m.model;
 
-import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
