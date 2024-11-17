@@ -6,21 +6,28 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
+    <!-- Creación de una tabla de ejemplo -->
     <changeSet id="1" author="gabriel">
-        <createTable tableName="product">
+        <createTable tableName="spaceShip">
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="name" type="varchar(255)">
+            <column name="name" type="varchar(50)">
                 <constraints nullable="false"/>
             </column>
             <column name="description" type="varchar(255)"/>
-            <column name="price" type="DECIMAL(10,2)">
-                <constraints nullable="false" checkConstraint="CHECK (price &gt;= 0)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2" author="gabriel">
+        <createTable tableName="user">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="category" type="varchar(50)">
+            <column name="name" type="varchar(50)">
                 <constraints nullable="false"/>
             </column>
+            <column name="password" type="varchar(255)"/>
         </createTable>
     </changeSet>
 

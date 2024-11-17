@@ -1,10 +1,8 @@
-DROP TABLE IF EXISTS product;
+DROP TABLE IF EXISTS spaceShip;
 
-CREATE TABLE product
+CREATE TABLE spaceShip
 (
     id          int AUTO_INCREMENT PRIMARY KEY,
-    name        varchar(255)   NOT NULL,
-    description varchar(255),
-    price       decimal(10, 2) NOT NULL,
-    category    varchar(100)   NOT NULL
+    name        varchar(50) NOT NULL,
+    description varchar(255)
 );

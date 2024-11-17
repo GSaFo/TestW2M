@@ -1,3 +1,11 @@
-INSERT INTO product (name, description, price, category)
-VALUES ('galletas', 'galletas descripcion', 2.4, 'alimentacion'),
-       ('detergente', 'detergente descripcion', 4.4, 'limpieza');
+INSERT INTO spaceShip (name, description)
+VALUES ('x-wing', 'star wars'),
+       ('y-wing', 'star wars'),
+       ('z-wing', 'star wars'),
+       ('tie fighter', 'star wars'),
+       ('USS enterprise', 'star trek'),
+       ('nostromo', 'alien'),
+       ('battlestar galactica', 'battlestar galactica'),
+       ('planet express', 'futurama'),
+       ('tardis', 'dr.who'),
+       ('ishimura', 'dead space');
