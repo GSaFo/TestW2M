@@ -27,7 +27,7 @@ public class SpaceShipService {
     // Consultar todas las naves con paginación
     public PaginatedResponse<SpaceShip> getAllShips(int page, int size) {
         Page<SpaceShip> spaceShipPage = spaceShipRepository.findAll(PageRequest.of(page, size));
-        return mapperConfig.map(spaceShipPage, PaginatedResponse.class);
+        return mapperConfig.map(spaceShipPage,PaginatedResponse.class);
     }
 
     // Consultar nave por id
