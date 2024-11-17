@@ -1,4 +1,4 @@
-package com.java.testw2m.model;
+package com.java.transfex.model;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;

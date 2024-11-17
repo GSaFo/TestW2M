@@ -1,4 +1,4 @@
-package com.java.testw2m.mapper;
+package com.java.transfex.mapper;
 
 import org.modelmapper.ModelMapper;
 

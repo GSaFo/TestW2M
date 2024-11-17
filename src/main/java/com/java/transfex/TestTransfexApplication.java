@@ -1,13 +1,13 @@
-package com.java.testw2m;
+package com.java.transfex;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class TestW2MApplication {
+public class TestTransfexApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(TestW2MApplication.class, args);
+        SpringApplication.run(TestTransfexApplication.class, args);
     }
 
 }
